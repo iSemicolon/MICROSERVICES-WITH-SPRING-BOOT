@@ -2,6 +2,7 @@ package org.kol.OrderService.controller;
 
 import org.kol.OrderService.entity.Order;
 import org.kol.OrderService.response.OrderResponse;
+import org.kol.OrderService.response.ProductResponse;
 import org.kol.OrderService.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,7 @@ public class OrderController {
 
         OrderResponse orderResponse=orderService.saveOrder(order);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(orderResponse);
+        return ResponseEntity.status(HttpStatus.OK).body(orderResponse);
 
     }
 
@@ -62,6 +63,15 @@ public class OrderController {
        String deleteMsg= orderService.DeleteOrder(orderId);
 
         return deleteMsg;
+    }
+
+    @GetMapping("/rest-fetch-product-by-id/{Id}")
+    public ResponseEntity<ProductResponse> getProductById (@PathVariable("Id") Long orderId){
+
+        ProductResponse orderResponse=orderService.findRestProductById(orderId);
+
+        return ResponseEntity.status(HttpStatus.FOUND).body(orderResponse);
+
     }
 
 }

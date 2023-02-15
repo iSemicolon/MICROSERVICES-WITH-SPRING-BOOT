@@ -3,12 +3,12 @@ package org.kol.OrderService.service;
 import org.kol.OrderService.entity.Order;
 import org.kol.OrderService.repository.OrderRepository;
 import org.kol.OrderService.response.OrderResponse;
+import org.kol.OrderService.response.ProductResponse;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
-
-import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,6 +20,9 @@ public class OrderService {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private RestTemplate restTemplate;
     
     public OrderResponse saveOrder(Order order) {
       Order saveOrder=  orderRepository.save(order);
@@ -71,9 +74,15 @@ public class OrderService {
 
     public String DeleteOrder(Long orderId) {
 
-
         orderRepository. deleteById(orderId);
-
         return "Record Deleted";
+    }
+
+    public ProductResponse findRestProductById(Long orderId) {
+
+        ProductResponse productResponse=  restTemplate.getForObject("http://localhost:8081/product/fetch-product-by-id/{orderId}",ProductResponse.class, orderId);
+
+        return productResponse;
+
     }
 }
