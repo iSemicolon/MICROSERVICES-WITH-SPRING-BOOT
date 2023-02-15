@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,7 +24,10 @@ public class OrderService {
 
     @Autowired
     private RestTemplate restTemplate;
-    
+
+  
+
+
     public OrderResponse saveOrder(Order order) {
       Order saveOrder=  orderRepository.save(order);
 
@@ -78,11 +82,13 @@ public class OrderService {
         return "Record Deleted";
     }
 
-    public ProductResponse findRestProductById(Long orderId) {
+    public ProductResponse findRestProductById(Long productId) {
 
-        ProductResponse productResponse=  restTemplate.getForObject("http://localhost:8081/product/fetch-product-by-id/{orderId}",ProductResponse.class, orderId);
+        ProductResponse productResponse=  restTemplate.getForObject("http://localhost:8081/product/fetch-product-by-id/{productId}",ProductResponse.class, productId);
 
         return productResponse;
 
     }
+
+
 }

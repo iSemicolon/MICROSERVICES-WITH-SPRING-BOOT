@@ -66,12 +66,14 @@ public class OrderController {
     }
 
     @GetMapping("/rest-fetch-product-by-id/{Id}")
-    public ResponseEntity<ProductResponse> getProductById (@PathVariable("Id") Long orderId){
+    public ResponseEntity<ProductResponse> getProductById (@PathVariable("Id") Long productId){
 
-        ProductResponse orderResponse=orderService.findRestProductById(orderId);
+        ProductResponse orderResponse=orderService.findRestProductById(productId);
 
         return ResponseEntity.status(HttpStatus.FOUND).body(orderResponse);
 
     }
+
+
 
 }
