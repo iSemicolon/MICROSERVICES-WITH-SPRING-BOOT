@@ -74,6 +74,15 @@ public class OrderController {
 
     }
 
+    @GetMapping("/web-fetch-product-by-id/{Id}")
+    public ResponseEntity<ProductResponse> getWebProductById (@PathVariable("Id") Long productId){
+
+        ProductResponse orderResponse=orderService.findWebProductById(productId);
+
+        return ResponseEntity.status(HttpStatus.FOUND).body(orderResponse);
+
+    }
+
 
 
 }

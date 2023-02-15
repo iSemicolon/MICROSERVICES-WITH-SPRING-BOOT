@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 
 
 import java.util.List;
@@ -25,7 +26,8 @@ public class OrderService {
     @Autowired
     private RestTemplate restTemplate;
 
-  
+    @Autowired
+    private WebClient webClient;
 
 
     public OrderResponse saveOrder(Order order) {
@@ -88,6 +90,17 @@ public class OrderService {
 
         return productResponse;
 
+    }
+
+    public ProductResponse findWebProductById(Long productId) {
+
+        ProductResponse productResponse = webClient.get()
+                .uri("http://localhost:8081/product/fetch-product-by-id/" + productId)
+                .retrieve()
+                .bodyToMono(ProductResponse.class)
+                .block();
+
+        return productResponse;
     }
 
 
