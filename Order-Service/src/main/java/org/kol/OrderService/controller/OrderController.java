@@ -5,6 +5,8 @@ import org.kol.OrderService.response.OrderResponse;
 import org.kol.OrderService.response.ProductResponse;
 import org.kol.OrderService.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +15,8 @@ import java.util.List;
 
 @RequestMapping("/order")
 @RestController
+@EnableDiscoveryClient
+@EnableFeignClients
 public class OrderController {
 
     @Autowired
@@ -80,6 +84,15 @@ public class OrderController {
         ProductResponse orderResponse=orderService.findWebProductById(productId);
 
         return ResponseEntity.status(HttpStatus.FOUND).body(orderResponse);
+
+    }
+
+    @GetMapping("/feign-fetch-all-products")
+    public  ResponseEntity<List<ProductResponse> >getFeignAllProducts (){
+
+        List<ProductResponse> orderResponse=  orderService.findFeignAllProducts();
+
+        return ResponseEntity.status(HttpStatus.OK).body(orderResponse);
 
     }
 

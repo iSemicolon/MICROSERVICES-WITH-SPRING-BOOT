@@ -1,6 +1,6 @@
 package org.kol.OrderService.service;
-
 import org.kol.OrderService.entity.Order;
+import org.kol.OrderService.feignClient.ProductFeign;
 import org.kol.OrderService.repository.OrderRepository;
 import org.kol.OrderService.response.OrderResponse;
 import org.kol.OrderService.response.ProductResponse;
@@ -28,6 +28,9 @@ public class OrderService {
 
     @Autowired
     private WebClient webClient;
+
+    @Autowired
+    private ProductFeign productFeign;
 
 
     public OrderResponse saveOrder(Order order) {
@@ -103,5 +106,12 @@ public class OrderService {
         return productResponse;
     }
 
+     public List<ProductResponse> findFeignAllProducts() {
 
+        List<ProductResponse> productResponse = productFeign.getAllProduct().stream()
+                .map(productResponses -> modelMapper.map(productResponses, ProductResponse.class))
+                .collect(Collectors.toList());;
+        return productResponse;
+
+    }
 }
